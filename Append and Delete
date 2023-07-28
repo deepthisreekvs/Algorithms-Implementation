@@ -1,0 +1,49 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'appendAndDelete' function below.
+#
+# The function is expected to return a STRING.
+# The function accepts following parameters:
+#  1. STRING s
+#  2. STRING t
+#  3. INTEGER k
+#
+
+def appendAndDelete(s, t, k):
+    # Write your code here
+    # Convert the strings to list
+    T = list(t)
+    S = list(s)
+    
+    # Iterate through both list and delete elements that are common to both
+    while len(T) > 0 and len(S) > 0 and T[0] == S[0]:
+        T = T[1:]
+        S = S[1:]
+    
+    # check if s in t and len(t) > len(s)    
+    if len(list(t)) > len(list(s)) and len(S) == 0:
+        return 'No' if len(T) > (k % len(list(s))) else 'Yes'
+    else:
+        return 'Yes' if (len(T) + len(S)) <= k else 'No'
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    s = input()
+
+    t = input()
+
+    k = int(input().strip())
+
+    result = appendAndDelete(s, t, k)
+
+    fptr.write(result + '\n')
+
+    fptr.close()
