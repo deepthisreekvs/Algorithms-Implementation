@@ -1,0 +1,53 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'acmTeam' function below.
+#
+# The function is expected to return an INTEGER_ARRAY.
+# The function accepts STRING_ARRAY topic as parameter.
+#
+
+#written my code, here too
+#here, we imported combinations from itertools --d
+from itertools import combinations
+
+def acmTeam(topic):
+    #write your code here
+    # create teams
+    teams = combinations(topic, 2)
+    # obtain team knowledge for each team
+    def pairwise_or(team):
+        return [int(tm0) or int(tm1) for tm0, tm1 in zip(team[0], team[1])]
+    team_knowledge = map(pairwise_or, teams)
+    # for each team knowledge, count the total topics
+    team_max_topics = list(map(lambda tk: tk.count(1), team_knowledge))
+    tmaxt = max(team_max_topics)
+    return [tmaxt, team_max_topics.count(tmaxt)]
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    first_multiple_input = input().rstrip().split()
+
+    n = int(first_multiple_input[0])
+
+    m = int(first_multiple_input[1])
+
+    topic = []
+
+    for _ in range(n):
+        topic_item = input()
+        topic.append(topic_item)
+
+    result = acmTeam(topic)
+
+    fptr.write('\n'.join(map(str, result)))
+    fptr.write('\n')
+
+    fptr.close()
