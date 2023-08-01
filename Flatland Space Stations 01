@@ -1,0 +1,44 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+# Complete the flatlandSpaceStations function below.
+def flatlandSpaceStations(n, c):
+    c.sort()
+    distances = []
+    
+    # first
+    distances.append(c[0])
+
+    # pair
+    for i, city_with_space_station_idx in enumerate(c):
+        if i==len(c)-1:
+            break
+        next_city_idx = c[i+1]
+        diff = next_city_idx  - city_with_space_station_idx - 1       
+        distances.append(math.ceil(diff/2))
+    # last
+    distances.append(n-c[-1]-1)
+    
+    return max(distances)
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    nm = input().split()
+
+    n = int(nm[0])
+
+    m = int(nm[1])
+
+    c = list(map(int, input().rstrip().split()))
+
+    result = flatlandSpaceStations(n, c)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
