@@ -1,0 +1,59 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'matrixRotation' function below.
+#
+# The function accepts following parameters:
+#  1. 2D_INTEGER_ARRAY matrix
+#  2. INTEGER r
+#
+
+def matrixRotation(matrix, r):
+    # Write your code here
+    m,n = len(matrix),len(matrix[0])    
+    mid = min(m,n)//2 - 1
+    layers = []
+    i = 0
+    ans = [line.copy() for line in matrix]
+    while i <= mid:
+        a = []
+        for row in range(i,m-i-1):
+            a.append((row,i))
+        for col in range(i,n-i-1):
+            a.append((m-i-1,col))
+        for row in range(m-i-1,i,-1):
+            a.append((row,n-i-1))
+        for col in range(n-i-1,i,-1):
+            a.append((i,col))
+        layers.append(a)
+        i+=1
+    for j in layers:
+        steps = r % len(j)
+        cord = j[-steps:] + j[:-steps]
+        for h in range(len(j)):
+            ans[j[h][0]][j[h][1]] = matrix[cord[h][0]][cord[h][1]]            
+    for line in ans:
+        print(*line)
+    return
+
+if __name__ == '__main__':
+    first_multiple_input = input().rstrip().split()
+
+    m = int(first_multiple_input[0])
+
+    n = int(first_multiple_input[1])
+
+    r = int(first_multiple_input[2])
+
+    matrix = []
+
+    for _ in range(m):
+        matrix.append(list(map(int, input().rstrip().split())))
+
+    matrixRotation(matrix, r)
