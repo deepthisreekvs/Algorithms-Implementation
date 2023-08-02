@@ -1,0 +1,40 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'happyLadybugs' function below.
+#
+# The function is expected to return a STRING.
+# The function accepts STRING b as parameter.
+#
+
+def happyLadybugs(b):
+    # Write your code here
+    for i in b:
+        if i != '_' and b.find(i) == b.rfind(i):
+            return 'NO'
+        cnt = b.count(i)
+        if (((b.find(i) + cnt) - 1) < b.rfind(i)) and b.count('_') == 0:
+            return 'NO'
+    return 'YES'
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    g = int(input().strip())
+
+    for g_itr in range(g):
+        n = int(input().strip())
+
+        b = input()
+
+        result = happyLadybugs(b)
+
+        fptr.write(result + '\n')
+
+    fptr.close()
