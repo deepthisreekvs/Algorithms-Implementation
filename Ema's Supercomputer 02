@@ -1,0 +1,70 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'twoPluses' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts STRING_ARRAY grid as parameter.
+#
+
+def twoPluses(grid):
+    # Write your code here
+    pluses = []  
+    for n in range(1, len(grid)-1):
+        for m in range(1, len(grid[0])-1):
+            if grid[n][m] == grid[n][m-1] == grid[n][m+1] == grid[n-1][m] == grid[n+1][m] == 'G':
+                plus = [(n-1,m), (n,m-1), (n,m), (n,m+1), (n+1,m)]
+                pluses.append(plus)
+                i = 2
+                while n+i < len(grid) and n-i >=0 and m+i < len(grid[0]) and m-i >= 0 and grid[n+i][m] == grid[n-i][m] == grid[n][m+i] == grid[n][m-i] == 'G':
+                    plus.extend([(n-i,m), (n,m-i), (n, m+i), (n+i,m)])
+                    pluses.append(sorted(plus))
+                    i += 1                
+    pluses.sort(key=lambda x: len(x), reverse=True)    
+    countG = 0
+    for row in grid:
+        countG += row.count('G') 
+    if len(pluses) == 0 and countG >= 2:
+        return 1
+    elif len(pluses) == 1:
+        if len(pluses[0]) == countG:
+            return 1
+        else:
+            return len(pluses[0])        
+    else:        
+        ans = len(pluses[0])        
+        for j,x in enumerate(pluses):
+            for y in pluses[j+1:]:
+                for h,z in enumerate(x):
+                    if z in y:
+                        break
+                    elif h == len(x)-1 and len(x) * len(y) > ans:
+                        ans = len(x) * len(y)
+        return ans
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    first_multiple_input = input().rstrip().split()
+
+    n = int(first_multiple_input[0])
+
+    m = int(first_multiple_input[1])
+
+    grid = []
+
+    for _ in range(n):
+        grid_item = input()
+        grid.append(grid_item)
+
+    result = twoPluses(grid)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
