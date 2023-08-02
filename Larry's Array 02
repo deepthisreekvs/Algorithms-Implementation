@@ -1,0 +1,62 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'larrysArray' function below.
+#
+# The function is expected to return a STRING.
+# The function accepts INTEGER_ARRAY A as parameter.
+#
+
+def larrysArray(A):
+    # Write your code here
+    m={}
+    for i,j in enumerate(A):
+        m[j]=i
+    for i in range(len(A)-2):
+        idx=m[i+1]
+        while idx!=i:
+            if  idx-2>=i:
+                f=A[idx-2];s=A[idx-1]
+                m[A[idx-2]]+=1
+                m[A[idx-1]]+=1
+                m[A[idx]]-=2
+                A[idx-1]=f
+                A[idx]=s
+                A[idx-2]=i+1
+                idx-=2
+            elif idx-1==i:
+                p=A[idx-1];n=A[idx+1]
+                m[A[idx]]-=1
+                m[A[idx-1]]+=2
+                m[A[idx+1]]-=1
+                A[idx+1]=p
+                A[idx]=n
+                A[idx-1]=i+1
+                idx-=1
+    n=len(A)
+    if A[n-2]==n-1 and A[n-1]==n:
+        return 'YES'
+    else:
+        return 'NO'
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    t = int(input().strip())
+
+    for t_itr in range(t):
+        n = int(input().strip())
+
+        A = list(map(int, input().rstrip().split()))
+
+        result = larrysArray(A)
+
+        fptr.write(result + '\n')
+
+    fptr.close()
